@@ -1,0 +1,5 @@
+name, damage, strong, weak, cost, min, max
+trident,2,mackerel,shrimp,2,4,10
+shark tooth,2,sardine,cod,2,4,10
+seaweed whip,3,cod,sardine,4,7,20
+throwing starfish,2,shrimp,cod,3,7,16
