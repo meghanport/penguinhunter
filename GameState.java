@@ -87,6 +87,7 @@ public class GameState {
         Player.newPlayer();
 
         round = 0;
+        int x = 0;
 
         return gameSetUp;
     }
