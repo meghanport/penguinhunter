@@ -14,6 +14,7 @@ public class GameState {
         int min = 10;
         int max = 20;
         int x = 10;
+        int y = 0;
   
         int fishTarget = (int)Math.floor(Math.random()*(max-min+1)+min);
   
