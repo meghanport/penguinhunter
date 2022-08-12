@@ -57,7 +57,6 @@ public class Player {
             System.out.println("Do you want to change your name? Y or N?");
         
         do {
-            
             newName = input.nextLine();
             switch(newName.toLowerCase()){
                 case "y":
@@ -69,17 +68,9 @@ public class Player {
             }
             
         } while (!userInputCorrect); 
-
-        
-
-        }
+    }
 
         System.out.println("Your name is " + Player.name );
-        return Player.name ;
-
-        
-    }
-   
-        
+        return Player.name ;  
+    }    
 }
-

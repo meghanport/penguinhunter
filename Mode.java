@@ -9,19 +9,17 @@ import java.util.Scanner;
 
 public class Mode {
     public String mode;
-
     private static final Scanner input = new Scanner(System.in);
 
     public Mode(String newMode){
         this.mode = newMode;
     }
-
+    
     public String getMode() {
         return mode;
     }
 
     public static String pickMode(){
-        
         String pickMode = null;
         boolean userInputCorrect = false;
         System.out.println("");
@@ -44,9 +42,7 @@ public class Mode {
         pickMode = pickMode.substring(0,1).toUpperCase() + pickMode.substring(1);
         System.out.println("You selected " + pickMode + " Mode");
 
-        
-        return pickMode;        
-        
+        return pickMode;           
     }
 
     public static int readHighScore() throws java.io.IOException{
@@ -66,17 +62,14 @@ public class Mode {
     }
 
 
-    public static void writeHighScore(int contents)
-    {
+    public static void writeHighScore(int contents){
         String fileName = "highscore.txt";
-        try
-        {
+        try{
             PrintWriter outputFile = new PrintWriter(fileName);
             outputFile.println(contents);
             outputFile.close();
         }
-        catch(Exception e)
-        {
+        catch(Exception e){
             System.out.println("Caught in exception while writing the file");
         }
     }
@@ -157,8 +150,5 @@ public class Mode {
 
     public void setMode(String newMode) {
         this.mode = newMode;
-    }
-
-    
+    }   
 }
-

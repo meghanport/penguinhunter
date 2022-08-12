@@ -12,18 +12,15 @@ public class GameState {
 
    
     public static void initialiseArrayList(){
-
         String loanAmount = String.valueOf(0); 
         String loanDue = "due" + String.valueOf(0); 
 
         loanArray.add(loanDue);
-        loanArray.add(loanAmount);
-          
+        loanArray.add(loanAmount);   
     }
 
     
     public static int fishTarget(){
-
         int min = 10;
         int max = 20;
   
@@ -31,11 +28,9 @@ public class GameState {
   
         System.out.println("Today's fish target is: " + fishTarget);  
         return fishTarget;
-  
     }
 
     public static int insurance(){
-
         int min = 1;
         int max = 10;
   
@@ -43,7 +38,6 @@ public class GameState {
         
         System.out.println("Today's predator insurance premium is: " + insurance);  
         return insurance;
-  
     }
 
 
@@ -72,21 +66,16 @@ public class GameState {
             else{
                 System.out.println(safe); 
             }
-            
+ 
         return safe;
     }
 
 
     public static String gameSetUp(){
-
         String gameSetUp = null;
-
         Player.newPlayer();
-
         round = 0;
-        
         initialiseArrayList();
-
         return gameSetUp;
     }
 
@@ -136,9 +125,7 @@ public class GameState {
             } while (!userInputCorrect);
 
             selection = selection1;
-
         }
-
         return selection;
     }
 
@@ -153,7 +140,6 @@ public class GameState {
     }
 
     public static void nextRound() throws IOException{
-
         ArrayList<String> newDay = new ArrayList<String>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("newday.txt"))){
@@ -207,17 +193,13 @@ public class GameState {
             }
 
             endTurn = true;
-    
             }
       
-
-        } while(!endTurn);     
-                   
+        } while(!endTurn);                  
     }
     
 
     public static String chooseWeapon(){
-
         String weapon = null;
         boolean userInputCorrect = false;
         
@@ -286,15 +268,12 @@ public class GameState {
         System.out.println("You selected a " + weapon);
 
         return weapon;       
-
     }
 
     public static void catchFish(){
         System.out.println(" ");
         System.out.println("You have chosen to catch fish!");
         System.out.println(" ");
-        
-        // choose weapon
 
         String chosenWeapon = chooseWeapon();
         
@@ -379,18 +358,15 @@ public class GameState {
                 System.out.println("You now have " +  (Player.fish + fishCaught) + " fish");
                 Player.fish = Player.fish + fishCaught;
             }
-           
         }
 
         public static void loanShark(){
-
             System.out.println(" ");
             System.out.println("You have chosen to go to the loan shark!");
             System.out.println(" ");
             System.out.println("You have " + Player.fish + " fish");
             System.out.println("Maurice: How many fish would you like to borrow?");
             Integer fishLoan = Integer.parseInt(input.nextLine());
-        
         
             while(fishLoan>30){
                 System.out.println("Maurice: You can only borrow 30 fish at a time");
@@ -411,7 +387,6 @@ public class GameState {
             System.out.println(" ");
             System.out.println("Maurice: You have three days to pay back your debt...");
                     
-            
             fishLoan = (int)Math.round(fishLoan*1.5);
             String loanDue = "due" + String.valueOf(round + 3); 
             String loanAmount = String.valueOf(fishLoan); 
@@ -422,7 +397,6 @@ public class GameState {
         }   
         
         public static void payDebt(int thisRound){
-
             String isLoanDue = "due" + String.valueOf(thisRound);
   
             if(loanArray.contains(isLoanDue)){
@@ -444,8 +418,6 @@ public class GameState {
                 System.out.println("You have no debts to pay today!");
                 System.out.println("");
             }     
-                  
-
         }
 
         public static void yourDead(int fish){
@@ -471,7 +443,3 @@ public class GameState {
 
        
 }
-      
-
-    
-

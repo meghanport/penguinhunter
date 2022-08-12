@@ -11,12 +11,8 @@ public class Hunter {
        
         public static void main(String[] args) throws IOException{
 
-            // read in the weapons text file
-
-            try (BufferedReader br = new BufferedReader(new FileReader("weapons.txt")))
-            {
+            try (BufferedReader br = new BufferedReader(new FileReader("weapons.txt"))){
                 String sCurrentLine;
-    
                 while ((sCurrentLine = br.readLine()) != null) {
                     String[] lineParts =  sCurrentLine.split(",");
                     for(String text:lineParts){
@@ -28,40 +24,28 @@ public class Hunter {
                 e.printStackTrace();
             } 
 
-            // game intro
-
             ArrayList<String> penguin = new ArrayList<String>();
 
-            try (BufferedReader br = new BufferedReader(new FileReader("penguin.txt")))
-            {
+            try (BufferedReader br = new BufferedReader(new FileReader("penguin.txt"))){
                 String penLine;
-    
                 while ((penLine = br.readLine()) != null) {
-                    
                     penguin.add(penLine);
-                    
                 }
     
-            } catch (IOException e) {
+            } catch (IOException e){
                 e.printStackTrace();
             } 
 
-            for (int i = 0; i < penguin.size();i++) 
-	      { 		      
+            for (int i = 0; i < penguin.size();i++){ 		      
 	          System.out.println(penguin.get(i)); 		
-	      }   
-
+	        }   
 
           ArrayList<String> maurice = new ArrayList<String>();
 
-            try (BufferedReader br = new BufferedReader(new FileReader("maurice.txt")))
-            {
+            try (BufferedReader br = new BufferedReader(new FileReader("maurice.txt"))){
                 String shark;
-    
                 while ((shark = br.readLine()) != null) {
-                    
                     maurice.add(shark);
-                    
                 }
     
             } catch (IOException e) {
@@ -106,14 +90,10 @@ public class Hunter {
           System.out.println("Press any key to start the game . . .");
           selection = input.nextLine();
             
-          // game set up
             GameState.gameSetUp();
-
-            //pick mode
 
             String chosenMode = Mode.pickMode();
             System.out.println(chosenMode);
-
 
             if((chosenMode.equals("Arcade"))){
                 Mode.arcadeMode();
@@ -122,9 +102,45 @@ public class Hunter {
                 Mode.storyMode();
             }
 
+            String playAgain = null;
+            boolean userInputCorrect = false;
+
+            System.out.println("Do you want to play again?");
+            System.out.println("Y or N?");
+        
+            do {
+                
+                playAgain = input.nextLine();
+                switch(playAgain.toLowerCase()){
+                    case "y":
+                    case "n":
+                    userInputCorrect = true;
+                    break;
+                    default:
+                    System.out.println("Please pick either Y or N");
+                }
+                
+            } while (!userInputCorrect);
+        
+    
+            while(playAgain.equals("y")){
+                System.out.println("Press any key to start the game . . .");
+                selection = input.nextLine();
+            
+                GameState.gameSetUp();
+
+                chosenMode = Mode.pickMode();
+                System.out.println(chosenMode);
+
+                if((chosenMode.equals("Arcade"))){
+                    Mode.arcadeMode();
+                }
+                else{
+                    Mode.storyMode();
+                }
+            }
+    
+            System.out.println("Thanks for playing!" );
 
         }
-
     }
-
-

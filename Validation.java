@@ -12,10 +12,5 @@ public class Validation {
             return true;
         else
             return false;
-    }
-
-   
-    
+    }  
 }
-
-
