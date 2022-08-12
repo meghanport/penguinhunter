@@ -14,7 +14,7 @@ public class Mode {
     public Mode(String newMode){
         this.mode = newMode;
     }
-    
+
     public String getMode() {
         return mode;
     }
@@ -85,7 +85,12 @@ public class Mode {
 
         int currentHighScore = Mode.readHighScore();
 
-        System.out.println("The current high score is: " + currentHighScore + " days");
+        if(currentHighScore<2){
+            System.out.println("The current high score is: " + currentHighScore + " day");
+        } else{ 
+            System.out.println("The current high score is: " + currentHighScore + " days");
+        }
+
         System.out.println(" ");
         System.out.println("Press any key to start the game . . .");
         selection = input.nextLine();
