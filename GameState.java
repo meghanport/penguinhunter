@@ -61,34 +61,17 @@ public class GameState {
             int penalty = (int)Math.floor(Math.random()*(maxPenalty-minPenalty+1)+minPenalty);
 
             Player.fish = Player.fish - penalty;
+
+            yourDead(Player.fish);
                         
-            if(Player.fish < 0){
-                System.out.println("You have no fish"); 
-                
-                ArrayList<String> dead = new ArrayList<String>();
-
-            try (BufferedReader br = new BufferedReader(new FileReader("dead.txt"))){
-                String deadLine;
-                while ((deadLine = br.readLine()) != null) {
-                    dead.add(deadLine);
-                }
-            } catch (IOException e){
-                e.printStackTrace();
-            } 
-
-            for (int i = 0; i < dead.size();i++){ 		      
-	          System.out.println(dead.get(i)); 		
-	      }   
-            }
-            else {
+            if(Player.fish > 0){
                 System.out.println("Number of fish: " + Player.fish); 
+            }   
+               
+        }
+            else{
+                System.out.println(safe); 
             }
-        }
-        else{
-            
-            System.out.println(safe); 
-            
-        }
             
         return safe;
     }
@@ -122,7 +105,8 @@ public class GameState {
             selection = Integer.parseInt(input.nextLine());
         }
 
-        if(goneFishing>=2){
+        if(selection == 1 && goneFishing>=2){
+            System.out.println(" ");
             System.out.println("Sorry, you're done fishing for today!"); 
             System.out.println(" ");
             System.out.println("Please make another selection:"); 
@@ -161,10 +145,11 @@ public class GameState {
    
     public static void endTurn(int fish1, int target1, int prem1){
         System.out.println(" ");
-        System.out.println("You have chosen to skip this turn!");
+        System.out.println("You have chosen to end this turn!");
         System.out.println("After feeding your family " +  target1 + " fish");
         System.out.println("and paying your insurance premium of " + prem1 + " fish");
         System.out.println("You have " +  fish1 + " fish");
+
     }
 
     public static void nextRound() throws IOException{
@@ -217,7 +202,9 @@ public class GameState {
             
             endTurn(Player.fish, todayTarget, prem);
             
-            payDebt(thisRound);
+            if(Player.fish>0){
+                payDebt(thisRound);
+            }
 
             endTurn = true;
     
@@ -239,7 +226,7 @@ public class GameState {
         System.out.println("2. Shark Tooth");
         System.out.println("3. Seaweed Whip");
         System.out.println("4. Throwing Starfish");
-        System.out.println("Weapon details");
+        System.out.println("5. Weapon details");
 
         do {
             weapon = input.nextLine();
@@ -265,18 +252,31 @@ public class GameState {
                 case "shark tooth":
                 case "seaweed whip":
                 case "throwing starfish":
-               
                 userInputCorrect = true;
                 break;
+
+                case "5":
+                System.out.println("Weapon details:");
+                System.out.println(" ");
+                System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
+                System.out.println("Trident\t\t\tMackerel\tShrimp\t\t2\t10\t\t20");
+                System.out.println("Shark Tooth\t\tSardine\t\tCod\t\t2\t10\t\t20");
+                System.out.println("Seaweed Whip\t\tCod\t\tSardine\t\t3\t10\t\t25");
+                System.out.println("Throwing Starfish\tShrimp\t\tMackerel\t3\t10\t\t25");
+                System.out.println(" ");
+                System.out.println("Please choose a weapon");
+                userInputCorrect =false;
+                break;
+
                 default:
 
                 System.out.println("Weapon details:");
                 System.out.println(" ");
-                System.out.println("NAME\tSTRONG\tWEAK\tCOST\tMIN CATCH\tMAX CATCH");
-                System.out.println("Trident\tMackerel\tShrimp\t2\t2\t10");
-                System.out.println("Shark Tooth\tSardine\tCod\t2\t2\t10");
-                System.out.println("Seaweed Whip\tCod\tSardine\t4\t4\t20");
-                System.out.println("Throwing Starfish\tShrimp\tCod\t3\t3\t16");
+                System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
+                System.out.println("Trident\t\t\tMackerel\tShrimp\t\t2\t10\t\t20");
+                System.out.println("Shark Tooth\t\tSardine\t\tCod\t\t2\t10\t\t20");
+                System.out.println("Seaweed Whip\t\tCod\t\tSardine\t\t3\t10\t\t25");
+                System.out.println("Throwing Starfish\tShrimp\t\tMackerel\t3\t10\t\t25");
                 System.out.println(" ");
                 System.out.println("Please choose a weapon");
             }
@@ -415,8 +415,8 @@ public class GameState {
                     
             
             fishLoan = (int)Math.round(fishLoan*1.5);
-            String loanAmount = String.valueOf(fishLoan); 
             String loanDue = "due" + String.valueOf(round + 3); 
+            String loanAmount = String.valueOf(fishLoan); 
 
             loanArray.add(loanDue);
             loanArray.add(loanAmount);
@@ -430,14 +430,17 @@ public class GameState {
             if(loanArray.contains(isLoanDue)){
                 int loanIndex = (loanArray.indexOf(isLoanDue) + 1);
                 Integer loanAmount = Integer.parseInt(loanArray.get(loanIndex));
-                Integer toPay = Integer.parseInt(loanArray.get(loanAmount));
-                Player.fish = Player.fish - toPay; 
-                Player.loan = Player.loan - toPay;
+
+                Player.fish = Player.fish - loanAmount; 
+                Player.loan = Player.loan - loanAmount;
                 System.out.println("");
                 System.out.println("You paid your loan of " + loanAmount + " fish");
                 System.out.println("You now have " + Player.fish  + " fish");
                 System.out.println("Your loan is now " + Player.loan + " fish");
                 System.out.println("");
+
+                yourDead(Player.fish);
+
             }else{
                 System.out.println("");
                 System.out.println("You have no debts to pay today!");
@@ -445,6 +448,27 @@ public class GameState {
             }     
                   
 
+        }
+
+        public static void yourDead(int fish){
+
+            if(fish<0){
+
+                ArrayList<String> dead = new ArrayList<String>();
+
+            try (BufferedReader br = new BufferedReader(new FileReader("dead.txt"))){
+                String deadLine;
+                while ((deadLine = br.readLine()) != null) {
+                    dead.add(deadLine);
+                }
+            } catch (IOException e){
+                e.printStackTrace();
+                }    
+
+            for (int i = 0; i < dead.size();i++){ 		      
+                System.out.println(dead.get(i)); 		
+                }   
+            }
         }
 
        

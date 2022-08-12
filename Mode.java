@@ -113,20 +113,7 @@ public class Mode {
 
         System.out.println("You have run out of fish ...");
 
-        ArrayList<String> dead = new ArrayList<String>();
-
-            try (BufferedReader br = new BufferedReader(new FileReader("dead.txt"))){
-                String deadLine;
-                while ((deadLine = br.readLine()) != null) {
-                    dead.add(deadLine);
-                }
-            } catch (IOException e){
-                e.printStackTrace();
-            } 
-
-            for (int i = 0; i < dead.size();i++){ 		      
-	          System.out.println(dead.get(i)); 		
-	      }   
+        GameState.yourDead(Player.fish);
 
     }
 
