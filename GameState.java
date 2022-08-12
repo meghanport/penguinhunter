@@ -8,6 +8,19 @@ public class GameState {
     public static int round;
     public static int goneFishing;
     private static final Scanner input = new Scanner(System.in);
+    public static ArrayList<String> loanArray = new ArrayList<String>();
+
+   
+    public static void initialiseArrayList(){
+
+        String loanAmount = String.valueOf(0); 
+        String loanDue = "due" + String.valueOf(0); 
+
+        loanArray.add(loanDue);
+        loanArray.add(loanAmount);
+          
+    }
+
     
     public static int fishTarget(){
 
@@ -80,6 +93,7 @@ public class GameState {
         return safe;
     }
 
+
     public static String gameSetUp(){
 
         String gameSetUp = null;
@@ -87,9 +101,70 @@ public class GameState {
         Player.newPlayer();
 
         round = 0;
-        int x = 0;
+        
+        initialiseArrayList();
 
         return gameSetUp;
+    }
+
+
+    public static int choiceList(int goneFishing){
+        System.out.println(" ");
+        System.out.println("Please make a selection:"); 
+        System.out.println("1: Catch fish"); 
+        System.out.println("2: Borrow from the loan shark"); 
+        System.out.println("3: End turn"); 
+
+        Integer selection = Integer.parseInt(input.nextLine());
+
+        while(selection == null || selection < 1 ||selection > 3){
+            System.out.println("Please choose 1, 2, or 3");
+            selection = Integer.parseInt(input.nextLine());
+        }
+
+        if(goneFishing>=2){
+            System.out.println("Sorry, you're done fishing for today!"); 
+            System.out.println(" ");
+            System.out.println("Please make another selection:"); 
+            System.out.println("1: Borrow from the loan shark"); 
+            System.out.println("2: End this turn"); 
+
+            Integer selection1 = null;
+            boolean userInputCorrect = false;
+
+            do {
+                selection1 = Integer.parseInt(input.nextLine());
+                switch(selection1){
+                    case 1:
+                    selection1 = 2;
+                    userInputCorrect = true;
+                    break;
+                    case 2:
+                    selection1 = 3;
+                    userInputCorrect = true;
+                    break;
+
+                    default:
+                    System.out.println("Please choose 1 or 2!");
+                    
+                   }
+                
+            } while (!userInputCorrect);
+
+            selection = selection1;
+
+        }
+
+        return selection;
+    }
+
+   
+    public static void endTurn(int fish1, int target1, int prem1){
+        System.out.println(" ");
+        System.out.println("You have chosen to skip this turn!");
+        System.out.println("After feeding your family " +  target1 + " fish");
+        System.out.println("and paying your insurance premium of " + prem1 + " fish");
+        System.out.println("You have " +  fish1 + " fish");
     }
 
     public static void nextRound() throws IOException{
@@ -111,10 +186,9 @@ public class GameState {
           System.out.println(newDay.get(i)); 		
       }   
 
-        if(Player.fish > 0){
-
         goneFishing = 0;
         round = round + 1;
+        int thisRound = round;
         System.out.println(" ");
         System.out.println("This is round: " + round); 
 
@@ -122,210 +196,36 @@ public class GameState {
         int prem = insurance();
         naturalDisaster();
 
-        System.out.println(" ");
-        System.out.println("Please make a selection:"); 
-        System.out.println("1: Catch fish"); 
-        System.out.println("2: Borrow from the loan shark"); 
-        System.out.println("3: Skip turn"); 
+        boolean endTurn = false;
 
-        Integer selection = Integer.parseInt(input.nextLine());
+        do{ 
+            Integer selection = choiceList(goneFishing);
 
-        while(selection == null || selection < 1 ||selection > 3){
-            System.out.println("Please choose 1, 2, or 3");
-            selection = Integer.parseInt(input.nextLine());
-        }
-        
-        if((selection.equals(1))){
-
-            catchFish();
-            goneFishing = goneFishing +1;
-        }
-        else if((selection.equals(2))){
-            loanShark();
-        } else{
-        
-        Player.fish = Player.fish - todayTarget - prem;
-        System.out.println(" ");
-        System.out.println("You have chosen to skip this turn!");
-        System.out.println("After feeding your family" +  todayTarget + " fish");
-        System.out.println("and paying your insurance premium of " + prem + " fish");
-        System.out.println("You have now " +  Player.fish + " fish");
-        }
-
-        
-        if(selection == 1 || selection == 2){
-
-        System.out.println(" ");
-        System.out.println("Please make another selection:"); 
-        System.out.println("1: Catch more fish"); 
-        System.out.println("2: Borrow from the loan shark"); 
-        System.out.println("3: End this turn"); 
-
-        Integer selection2 = Integer.parseInt(input.nextLine());
-
-        while(selection2 == null || selection2 < 1 ||selection2 > 3){
-            System.out.println("Please choose 1, 2, or 3");
-            selection2 = Integer.parseInt(input.nextLine());
-        }
-
-        while((selection2.equals(1)) && goneFishing >= 2){
-            System.out.println("Sorry, you're done fishing for today!"); 
-            System.out.println(" ");
-            System.out.println("Please make another selection:"); 
-            System.out.println("1: Borrow from the loan shark"); 
-            System.out.println("2: End this turn"); 
-
-            Integer selection3 = null;
-            boolean userInputCorrect3 = false;
-
-            do {
-                selection3 = Integer.parseInt(input.nextLine());
-                switch(selection3){
-                    case 1:
-                    selection3 = 2;
-                    userInputCorrect3 = true;
-                    break;
-                    case 2:
-                    selection3 = 3;
-                    userInputCorrect3 = true;
-                    break;
-
-                    default:
-                    System.out.println("Please choose 1 or 2!");
-                    
-                   }
-                
-            } while (!userInputCorrect3);
-
-            selection2 = selection3;
-        }
-
-        while((selection2.equals(1) && goneFishing<2)){
-
-            catchFish();
-            goneFishing = goneFishing +1;            
-        }
-
-        if((selection2.equals(2))){
-            loanShark();
-        } 
-        
-        else{
-        
-        Player.fish = Player.fish - todayTarget - prem;
-        System.out.println(" ");
-        System.out.println("You have chosen to end this turn!");
-        System.out.println("You currently have " +  Player.fish + " fish");
-        System.out.println(" ");
-            } 
-
-
-            if(selection2 == 1 || selection2 == 2){
-
-                System.out.println(" ");
-                System.out.println("Please make another selection:"); 
-                System.out.println("1: Catch more fish"); 
-                System.out.println("2: Borrow from the loan shark"); 
-                System.out.println("3: End this turn"); 
-            
-                Integer selection4 = Integer.parseInt(input.nextLine());
-            
-                while(selection4 == null || selection4 < 1 ||selection4 > 3){
-                    System.out.println("Please choose 1, 2, or 3");
-                    selection4 = Integer.parseInt(input.nextLine());
-                }
-            
-                while((selection4.equals(1)) && goneFishing >= 2){
-                    System.out.println("Sorry, you're done fishing for today!"); 
-                    System.out.println(" ");
-                    System.out.println("Please make another selection:"); 
-                    System.out.println("1: Borrow from the loan shark"); 
-                    System.out.println("2: End this turn"); 
-            
-                    Integer selection5 = null;
-                    boolean userInputCorrect4 = false;
-            
-                    do {
-                        selection5 = Integer.parseInt(input.nextLine());
-                        switch(selection5){
-                            case 1:
-                            selection5 = 2;
-                            userInputCorrect4 = true;
-                            break;
-                            case 2:
-                            selection5 = 3;
-                            userInputCorrect4 = true;
-                            break;
-            
-                            default:
-                            System.out.println("Please choose 1 or 2!");
-                            
-                           }
-                        
-                    } while (!userInputCorrect4);
-            
-                    selection4 = selection5;
-                }
-            
-                while((selection4.equals(1) && goneFishing<2)){
-            
-                    catchFish();
-                    goneFishing = goneFishing +1;            
-                }
-            
-                if((selection4.equals(2))){
-                    loanShark();
-                } 
-                
-                else{
-                
-                Player.fish = Player.fish - todayTarget - prem;
-                System.out.println(" ");
-                System.out.println("You have chosen to end this turn!");
-                System.out.println("You currently have " +  Player.fish + " fish");
-                System.out.println(" ");
-                    } 
-            
-        if(Player.fish < 0){
-            
-        System.out.println("You have run out of fish ...");
-
-        ArrayList<String> dead = new ArrayList<String>();
-
-            try (BufferedReader br = new BufferedReader(new FileReader("dead.txt"))){
-                String deadLine;
-                while ((deadLine = br.readLine()) != null) {
-                    dead.add(deadLine);
-                }
-            } catch (IOException e){
-                e.printStackTrace();
-            } 
-
-            for (int i = 0; i < dead.size();i++){ 		      
-	          System.out.println(dead.get(i)); 		
-	                 }   
-                }
+            if((selection.equals(1))){
+    
+                catchFish();
+                goneFishing = goneFishing +1;
+                endTurn = false;
             }
+            else if((selection.equals(2))){
+                loanShark();
+                endTurn = false;
+    
+            } else{
+            
+            Player.fish = Player.fish - (todayTarget + prem);
+            
+            endTurn(Player.fish, todayTarget, prem);
+            
+            payDebt(thisRound);
 
-            else{
-                System.out.println("You have run out of fish ...");
-                ArrayList<String> dead = new ArrayList<String>();
-
-                try (BufferedReader br = new BufferedReader(new FileReader("dead.txt"))){
-                     String deadLine;
-                    while ((deadLine = br.readLine()) != null) {
-                        dead.add(deadLine);
-                    }
-                } catch (IOException e){
-                    e.printStackTrace();
-                } 
-
-                for (int i = 0; i < dead.size();i++){ 		      
-	                System.out.println(dead.get(i)); 		
-	                 }                     
-                }
+            endTurn = true;
+    
             }
-        }
+      
+
+        } while(!endTurn);     
+                   
     }
     
 
@@ -476,11 +376,10 @@ public class GameState {
                 System.out.println("You now have " +  (Player.fish + fishCaught) + " fish");
                 Player.fish = Player.fish + fishCaught;
             } else{
-            Player.fish = Player.fish + fishCaught;
-            System.out.println(" ");
-            System.out.println("You caught " + fishCaught + " " + fishToday);
-            System.out.println("You now have " +  (Player.fish + fishCaught) + " fish");
-            
+                System.out.println(" ");
+                System.out.println("You caught " + fishCaught + " " + fishToday);
+                System.out.println("You now have " +  (Player.fish + fishCaught) + " fish");
+                Player.fish = Player.fish + fishCaught;
             }
            
         }
@@ -513,20 +412,40 @@ public class GameState {
             System.out.println("You now have " + Player.fish + " fish!");
             System.out.println(" ");
             System.out.println("Maurice: You have three days to pay back your debt...");
-            System.out.println("Which is now ... " + Player.loan);
-        
-            int loanDue = Player.turns + 3;
+                    
+            
+            fishLoan = (int)Math.round(fishLoan*1.5);
+            String loanAmount = String.valueOf(fishLoan); 
+            String loanDue = "due" + String.valueOf(round + 3); 
+
+            loanArray.add(loanDue);
+            loanArray.add(loanAmount);
            
         }   
         
-        // public static void payDebt(){
-            
-        //     while(Player.turns == loanDue){
-        
-        //     Player.fish = Player.fish - (int)Math.round(fishLoan*1.5); 
-        //     Player.loan = Player.loan - (int)Math.round(fishLoan*1.5);
-        // }
-        // }
+        public static void payDebt(int thisRound){
+
+            String isLoanDue = "due" + String.valueOf(thisRound);
+  
+            if(loanArray.contains(isLoanDue)){
+                int loanIndex = (loanArray.indexOf(isLoanDue) + 1);
+                Integer loanAmount = Integer.parseInt(loanArray.get(loanIndex));
+                Integer toPay = Integer.parseInt(loanArray.get(loanAmount));
+                Player.fish = Player.fish - toPay; 
+                Player.loan = Player.loan - toPay;
+                System.out.println("");
+                System.out.println("You paid your loan of " + loanAmount + " fish");
+                System.out.println("You now have " + Player.fish  + " fish");
+                System.out.println("Your loan is now " + Player.loan + " fish");
+                System.out.println("");
+            }else{
+                System.out.println("");
+                System.out.println("You have no debts to pay today!");
+                System.out.println("");
+            }     
+                  
+
+        }
 
        
 }

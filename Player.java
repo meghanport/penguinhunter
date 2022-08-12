@@ -3,7 +3,6 @@ import java.util.Scanner;
 public class Player {
     public static String name;
     public static int fish;
-    public static int turns;
     public static int loan;
 
     private static final Scanner input = new Scanner(System.in);
@@ -16,10 +15,7 @@ public class Player {
     public int getFish() {
         return fish;
     }
-    public int getTurns() {
-        return turns;
-    }
-
+   
     public static String playerName(){
         System.out.println("Please enter your name:");   
         name= input.nextLine();

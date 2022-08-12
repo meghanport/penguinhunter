@@ -102,6 +102,12 @@ public class Mode {
         }
 
         int roundsReached = GameState.round;
+        if(roundsReached<2){
+            System.out.println("You played " + roundsReached + " round!");
+        }else{
+            System.out.println("You played " + roundsReached + " rounds!");
+        }
+       
         writeHighScore(roundsReached);
 
 
