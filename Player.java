@@ -77,34 +77,7 @@ public class Player {
         System.out.println("Your name is " + Player.name );
         return Player.name ;
 
-        // if(newName.equals("y")){
-        //     playerName();
-        //     System.out.println("Do you want to change your name? Y or N?");  
-
-        // do {
-        //     newName = input.nextLine();
-        //     switch(newName.toLowerCase()){
-        //         case "y":
-        //         case "n":
-        //         userInputCorrect = true;
-        //         break;
-        //         default:
-        //         System.out.println("Please pick either Y or N");
-        //     }
-            
-        // } while (!userInputCorrect);
-
         
-        // if(newName.equals("y")){
-        //     playerName();}else{
-        //         System.out.println("Okay then your name is " + currentName); 
-        //     }
-
-        // } else {
-        //     System.out.println("Okay then your name is " + currentName); 
-        // }   
-             
-        // return currentName;
     }
    
         
