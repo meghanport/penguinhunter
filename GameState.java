@@ -222,36 +222,36 @@ public class GameState {
         boolean userInputCorrect = false;
         
         System.out.println("Please choose a weapon");
-        System.out.println("1. Trident");
-        System.out.println("2. Shark Tooth");
-        System.out.println("3. Seaweed Whip");
-        System.out.println("4. Throwing Starfish");
+        System.out.println("1. Swordfish");
+        System.out.println("2. Throwing Starfish");
+        System.out.println("3. Stingray");
+        System.out.println("4. Orca");
         System.out.println("5. Weapon details");
 
         do {
             weapon = input.nextLine();
             switch(weapon.toLowerCase()){
                 case "1":
-                weapon = "trident";
+                weapon = "swordfish";
                 userInputCorrect = true;
                 break;
                 case "2":
-                weapon = "shark tooth";
-                userInputCorrect = true;
-                break;
-                case "3":
-                weapon = "seaweed whip";
-                userInputCorrect = true;
-                break;
-                case "4":
                 weapon = "throwing starfish";
                 userInputCorrect = true;
                 break;
+                case "3":
+                weapon = "stringray";
+                userInputCorrect = true;
+                break;
+                case "4":
+                weapon = "orca";
+                userInputCorrect = true;
+                break;
                 
-                case "trident":
-                case "shark tooth":
-                case "seaweed whip":
+                case "swordfish":
                 case "throwing starfish":
+                case "stingray":
+                case "orca":
                 userInputCorrect = true;
                 break;
 
@@ -259,10 +259,10 @@ public class GameState {
                 System.out.println("Weapon details:");
                 System.out.println(" ");
                 System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
-                System.out.println("Trident\t\t\tMackerel\tShrimp\t\t2\t10\t\t20");
-                System.out.println("Shark Tooth\t\tSardine\t\tCod\t\t2\t10\t\t20");
-                System.out.println("Seaweed Whip\t\tCod\t\tSardine\t\t3\t10\t\t25");
-                System.out.println("Throwing Starfish\tShrimp\t\tMackerel\t3\t10\t\t25");
+                System.out.println("Swordfish\t\tSardine\t\tMackerel\t2\t3\t\t7");
+                System.out.println("Throwing Starfish\tMackerel\tSardine\t\t4\t7\t\t11");
+                System.out.println("Stringrayt\t\tCod\t\tShrimp\t\t7\t11\t\t15");
+                System.out.println("Orca\t\t\tShrimp\t\tCod\t\t10\t15\t\t19");
                 System.out.println(" ");
                 System.out.println("Please choose a weapon");
                 userInputCorrect =false;
@@ -273,10 +273,10 @@ public class GameState {
                 System.out.println("Weapon details:");
                 System.out.println(" ");
                 System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
-                System.out.println("Trident\t\t\tMackerel\tShrimp\t\t2\t10\t\t20");
-                System.out.println("Shark Tooth\t\tSardine\t\tCod\t\t2\t10\t\t20");
-                System.out.println("Seaweed Whip\t\tCod\t\tSardine\t\t3\t10\t\t25");
-                System.out.println("Throwing Starfish\tShrimp\t\tMackerel\t3\t10\t\t25");
+                System.out.println("Swordfish\t\tSardine\t\tMackerel\t2\t3\t\t7");
+                System.out.println("Throwing Starfish\tMackerel\tSardine\t\t4\t7\t\t11");
+                System.out.println("Stringrayt\t\tCod\t\tShrimp\t\t7\t11\t\t15");
+                System.out.println("Orca\t\t\tShrimp\t\tCod\t\t10\t15\t\t19");
                 System.out.println(" ");
                 System.out.println("Please choose a weapon");
             }
@@ -308,13 +308,11 @@ public class GameState {
         Player.fish = Player.fish - weaponCost;
         System.out.println("You currently have " + Player.fish + " fish");
        
-        // random fish caught
        int minFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 5));
        int maxFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 6));
        int fishCaught = (int)Math.floor(Math.random()*(maxFish-minFish+1)+minFish);
     
         boolean userInputCorrect = false;
-
 
         int min = 1;
             int max = 4;
