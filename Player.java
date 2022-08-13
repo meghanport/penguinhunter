@@ -19,7 +19,7 @@ public class Player {
     public static String playerName(){
         System.out.println("Please enter your name:");   
         name= input.nextLine();
-        while(Validation.isBlank(name) == true && Validation.lengthWithinRange(name, 3, 12) == false){
+        while(Validation.isBlank(name) == true || Validation.lengthWithinRange(name, 3, 12) == false){
             System.out.println("Please enter a valid name:");
             name = input.nextLine();
         }

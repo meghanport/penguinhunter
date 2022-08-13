@@ -8,7 +8,7 @@ public class Validation {
     }
 
     public static boolean lengthWithinRange(String input, int min, int max ){
-        if(input.length() <= min && input.length() >= max)
+        if(input.length() >= min && input.length() <= max)
             return true;
         else
             return false;
