@@ -6,12 +6,12 @@ import java.util.Scanner;
 
 public class GameState {
     public static int round;
-    public static int goneFishing;
+    private static int goneFishing;
     private static final Scanner input = new Scanner(System.in);
-    public static ArrayList<String> loanArray = new ArrayList<String>();
+    private static ArrayList<String> loanArray = new ArrayList<String>();
 
    
-    public static void initialiseArrayList(){
+    private static void initialiseArrayList(){
         String loanAmount = String.valueOf(0); 
         String loanDue = "due" + String.valueOf(0); 
 
@@ -20,7 +20,7 @@ public class GameState {
     }
 
     
-    public static int fishTarget(){
+    private static int fishTarget(){
         int min = 10;
         int max = 20;
   
@@ -30,7 +30,7 @@ public class GameState {
         return fishTarget;
     }
 
-    public static int insurance(){
+    private static int insurance(){
         int min = 1;
         int max = 10;
   
@@ -41,7 +41,7 @@ public class GameState {
     }
 
 
-    public static String naturalDisaster(){
+    private static String naturalDisaster(){
         String safe = "You have avoided a natural disaster today!";
         int min = 1;
         int max = 100;
@@ -56,7 +56,7 @@ public class GameState {
 
             Player.fish = Player.fish - penalty;
 
-            yourDead(Player.fish);
+            youreDead(Player.fish);
                         
             if(Player.fish > 0){
                 System.out.println("Number of fish: " + Player.fish); 
@@ -80,7 +80,7 @@ public class GameState {
     }
 
 
-    public static int choiceList(int goneFishing){
+    private static int choiceList(int goneFishing){
         System.out.println(" ");
         System.out.println("Please make a selection:"); 
         System.out.println("1: Catch fish"); 
@@ -130,7 +130,7 @@ public class GameState {
     }
 
    
-    public static void endTurn(int fish1, int target1, int prem1){
+    private static void endTurn(int fish1, int target1, int prem1){
         System.out.println(" ");
         System.out.println("You have chosen to end this turn!");
         System.out.println("After feeding your family " +  target1 + " fish");
@@ -199,7 +199,7 @@ public class GameState {
     }
     
 
-    public static String chooseWeapon(){
+    private static String chooseWeapon(){
         String weapon = null;
         boolean userInputCorrect = false;
         
@@ -270,7 +270,7 @@ public class GameState {
         return weapon;       
     }
 
-    public static void catchFish(){
+    private static void catchFish(){
         System.out.println(" ");
         System.out.println("You have chosen to catch fish!");
         System.out.println(" ");
@@ -360,7 +360,7 @@ public class GameState {
             }
         }
 
-        public static void loanShark(){
+        private static void loanShark(){
             System.out.println(" ");
             System.out.println("You have chosen to go to the loan shark!");
             System.out.println(" ");
@@ -396,7 +396,7 @@ public class GameState {
            
         }   
         
-        public static void payDebt(int thisRound){
+        private static void payDebt(int thisRound){
             String isLoanDue = "due" + String.valueOf(thisRound);
   
             if(loanArray.contains(isLoanDue)){
@@ -411,7 +411,7 @@ public class GameState {
                 System.out.println("Your loan is now " + Player.loan + " fish");
                 System.out.println("");
 
-                yourDead(Player.fish);
+                youreDead(Player.fish);
 
             }else{
                 System.out.println("");
@@ -420,7 +420,7 @@ public class GameState {
             }     
         }
 
-        public static void yourDead(int fish){
+        public static void youreDead(int fish){
 
             if(fish<0){
 

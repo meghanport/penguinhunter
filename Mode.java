@@ -111,7 +111,7 @@ public class Mode {
 
         System.out.println("You have run out of fish ...");
 
-        GameState.yourDead(Player.fish);
+        GameState.youreDead(Player.fish);
 
     }
 
