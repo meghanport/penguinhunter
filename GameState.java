@@ -87,14 +87,25 @@ public class GameState {
         System.out.println("2: Borrow from the loan shark"); 
         System.out.println("3: End turn"); 
 
-        Integer selection = Integer.parseInt(input.nextLine());
+        String selection = null;
+        boolean userInput = false;
 
-        while(selection == null || selection < 1 ||selection > 3){
-            System.out.println("Please choose 1, 2, or 3");
-            selection = Integer.parseInt(input.nextLine());
-        }
+        do{
+            selection = input.nextLine();
+            switch(selection){
+                case "1":
+                case "2":
+                case "3":
+                userInput = true;
+                break;
+                default:
+                System.out.println("Please choose 1, 2, or 3");
+            }
 
-        if(selection == 1 && goneFishing>=2){
+        }while(!userInput);
+    
+
+        if(selection == "1" && goneFishing>=2){
             System.out.println(" ");
             System.out.println("Sorry, you're done fishing for today!"); 
             System.out.println(" ");
@@ -102,18 +113,18 @@ public class GameState {
             System.out.println("1: Borrow from the loan shark"); 
             System.out.println("2: End this turn"); 
 
-            Integer selection1 = null;
+            String selection1 = null;
             boolean userInputCorrect = false;
 
             do {
-                selection1 = Integer.parseInt(input.nextLine());
+                selection1 = input.nextLine();
                 switch(selection1){
-                    case 1:
-                    selection1 = 2;
+                    case "1":
+                    selection1 = "2";
                     userInputCorrect = true;
                     break;
-                    case 2:
-                    selection1 = 3;
+                    case "2":
+                    selection1 = "3";
                     userInputCorrect = true;
                     break;
 
@@ -126,7 +137,9 @@ public class GameState {
 
             selection = selection1;
         }
-        return selection;
+
+        Integer output = Integer.parseInt(selection);
+        return output;
     }
 
    
