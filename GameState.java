@@ -62,7 +62,7 @@ public class GameState {
 
             Player.fish = Player.fish - penalty;
 
-            checkDead(Player.fish);
+            
                         
             if(Player.fish > 0){
                 System.out.println("Number of fish: " + Player.fish); 
@@ -77,12 +77,14 @@ public class GameState {
     }
 
 
-    public static String gameSetUp(){
-        String gameSetUp = null;
+    public static void gameSetUp(){
+        
         Player.newPlayer();
         round = 0;
         initialiseArrayList();
-        return gameSetUp;
+        loanArray.clear();
+        
+
     }
 
 
@@ -152,7 +154,7 @@ public class GameState {
         int thisRound = round;
         System.out.println(" ");
         System.out.println("This is round: " + round); 
-
+        System.out.println("You have: " + Player.fish + " fish"); 
         int todayTarget = fishTarget();
         int prem = insurance();
         naturalDisaster();
@@ -163,8 +165,12 @@ public class GameState {
                 catchFish();
                 goneFishing = goneFishing +1;   
             }
-            else if((selection.equals(2))){
+            else if((selection.equals(2)&& Player.loan<100)){
                 loanShark();
+            }
+            else if((selection.equals(2) && Player.loan>100)){
+                System.out.println("You've reached the maximum loan of 100 fish!"); 
+
             }
             else if((selection.equals(3))){
                 break;
@@ -205,7 +211,7 @@ public class GameState {
                 userInputCorrect = true;
                 break;
                 case "3":
-                weapon = "stringray";
+                weapon = "stingray";
                 userInputCorrect = true;
                 break;
                 case "4":
@@ -226,7 +232,7 @@ public class GameState {
                 System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
                 System.out.println("Swordfish\t\tSardine\t\tMackerel\t2\t3\t\t7");
                 System.out.println("Throwing Starfish\tMackerel\tSardine\t\t4\t7\t\t11");
-                System.out.println("Stringrayt\t\tCod\t\tShrimp\t\t7\t11\t\t15");
+                System.out.println("Stingray\t\tCod\t\tShrimp\t\t7\t11\t\t15");
                 System.out.println("Orca\t\t\tShrimp\t\tCod\t\t10\t15\t\t19");
                 System.out.println(" ");
                 System.out.println("Please choose a weapon");
@@ -240,7 +246,7 @@ public class GameState {
                 System.out.println("NAME\t\t\tSTRONG\t\tWEAK\t\tCOST\tMIN CATCH\tMAX CATCH");
                 System.out.println("Swordfish\t\tSardine\t\tMackerel\t2\t3\t\t7");
                 System.out.println("Throwing Starfish\tMackerel\tSardine\t\t4\t7\t\t11");
-                System.out.println("Stringrayt\t\tCod\t\tShrimp\t\t7\t11\t\t15");
+                System.out.println("Stingray\t\tCod\t\tShrimp\t\t7\t11\t\t15");
                 System.out.println("Orca\t\t\tShrimp\t\tCod\t\t10\t15\t\t19");
                 System.out.println(" ");
                 System.out.println("Please choose a weapon");
@@ -261,7 +267,7 @@ public class GameState {
         String chosenWeapon = chooseWeapon();
         
         int indexWeapon = Hunter.arr.indexOf(chosenWeapon);
-        String weaponCostString = Hunter.arr.get(indexWeapon + 4);
+        String weaponCostString = Hunter.arr.get(indexWeapon + 3);
         int weaponCost = Integer.parseInt(weaponCostString);
        
         System.out.println("The weapon cost is " + weaponCost);
@@ -270,8 +276,8 @@ public class GameState {
         Player.fish = Player.fish - weaponCost;
         System.out.println("You currently have " + Player.fish + " fish");
        
-       int minFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 5));
-       int maxFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 6));
+       int minFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 4));
+       int maxFish = Integer.parseInt(Hunter.arr.get(indexWeapon + 5));
        int fishCaught = (int)Math.floor(Math.random()*(maxFish-minFish+1)+minFish);
     
         boolean userInputCorrect = false;
@@ -320,7 +326,7 @@ public class GameState {
 
             String capWeapon = chosenWeapon.substring(0,1).toUpperCase() + chosenWeapon.substring(1);
 
-            if((Hunter.arr.get(indexWeapon + 2)).equals(fishToday)){
+            if((Hunter.arr.get(indexWeapon + 1)).equals(fishToday)){
                 fishCaught = fishCaught*2;
                 System.out.println(" ");
                 System.out.println(capWeapon + " is strong against " + fishToday);
@@ -328,7 +334,7 @@ public class GameState {
                 System.out.println("You now have " +  (Player.fish + fishCaught) + " fish");
                 Player.fish = Player.fish + fishCaught;
             }
-            else if((Hunter.arr.get(indexWeapon + 3)).equals(fishToday)){
+            else if((Hunter.arr.get(indexWeapon + 2)).equals(fishToday)){
                 fishCaught = fishCaught/2;
                 System.out.println(" ");  
                 System.out.println(capWeapon + " is weak against " + fishToday);
@@ -349,28 +355,37 @@ public class GameState {
             System.out.println(" ");
             System.out.println("You have " + Player.fish + " fish");
             System.out.println("Maurice: How many fish would you like to borrow?");
-            Integer fishLoan = Integer.parseInt(input.nextLine());
         
-            while(fishLoan>30){
-                System.out.println("Maurice: You can only borrow 30 fish at a time");
-                fishLoan = Integer.parseInt(input.nextLine());
+            System.out.println("Your current debt is: " + Player.loan);
+            int loanCapacity = (int)Math.round((100-Player.loan)/1.5);
+           // System.out.println("You can borrow 30 fish at a time.");
+            //System.out.println("You can borrow a maximum of: " + loanCapacity);
+        
+            int fishLoan; 
+        
+        
+            while (true) {
+                String fishLoanRaw = input.nextLine();
+                try {
+                    fishLoan = Integer.parseInt(fishLoanRaw);
+                } catch (Exception e) {
+                    System.out.println("Please enter a number\n");
+                    continue;
+                }if (fishLoan >= 0 && fishLoan <= 30 && loanCapacity>0 && fishLoan <= loanCapacity) {
+                    Player.loan = Player.loan + (int)Math.round(fishLoan*1.5);                
+                    break;
+                }
+                if(loanCapacity>30){
+                    System.out.println("Maurice: You can only borrow 30 fish at a time!");}
+                else if(loanCapacity<30){
+                    System.out.println("You can borrow a maximum of: " + loanCapacity);
+                }
+                
             }
-        
-            Player.loan = Player.loan + (int)Math.round(fishLoan*1.5);
-            
-            while(Player.loan>100){
-                System.out.println("Maurice: You can only have a 100 fish loan");
-                System.out.println("Maurice: You can borrow "+ (100 - Player.loan) + " more fish");
-                fishLoan = Integer.parseInt(input.nextLine());
-                Player.loan = Player.loan + (int)Math.round(fishLoan*1.5);
-            }
-        
             Player.fish = Player.fish + fishLoan;
             System.out.println("You now have " + Player.fish + " fish!");
             System.out.println(" ");
             System.out.println("Maurice: You have three days to pay back your debt...");
-
-
                     
             fishLoan = (int)Math.round(fishLoan*1.5);
             
@@ -378,9 +393,7 @@ public class GameState {
             String loanAmount = String.valueOf(fishLoan); 
 
             loanArray.add(loanDue);
-            loanArray.add(loanAmount);
-
-            
+            loanArray.add(loanAmount);   
            
         }   
         
@@ -399,7 +412,7 @@ public class GameState {
                 System.out.println("Your loan is now " + Player.loan + " fish");
                 System.out.println("");
 
-                checkDead(Player.fish);
+                
 
             }else{
                 System.out.println("");

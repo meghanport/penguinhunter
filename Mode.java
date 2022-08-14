@@ -137,7 +137,7 @@ public class Mode {
 
        int fishGoal;
         while (true) {
-            System.out.println("How many fish do you hope to have after your " + selectRounds + " turns?");
+            System.out.println("How many fish do you hope to have after your " + selectRounds + " rounds?");
             String fishGoalRaw  = input.nextLine();
             try {
                 fishGoal = Integer.parseInt(fishGoalRaw);
@@ -152,18 +152,28 @@ public class Mode {
         }
 
         
-        while(GameState.round <= selectRounds){
+        while(GameState.round < selectRounds  &&  Player.fish > 0){
             GameState.handleRound();
         }
 
-        System.out.println("You finished your " + selectRounds + " turns are over!");
-        System.out.println("You have " + Player.fish + " fish! And your goals was " + fishGoal);
+        if(GameState.round == selectRounds ){
+            System.out.println("You finished your " + selectRounds + " rounds!");
+            System.out.println("You have " + Player.fish + " fish! And your goals was " + fishGoal);
+    
+            if(Player.fish > fishGoal){
+                System.out.println("You reached your goal!!");
+            } else{
+                System.out.println("You didn't catch quite enough fish :(");
+            }
 
-        if(Player.fish > fishGoal){
-            System.out.println("You reached your goal!!");
-        } else{
-            System.out.println("You didn't catch quite enough fish :(");
+        } else if (GameState.round < selectRounds &&   Player.fish <= 0){
+
+            GameState.checkDead(Player.fish);
+            System.out.println("You played " + GameState.round +" of your " + selectRounds + " rounds!");
+
         }
+
+        
     }
 
     public void setMode(String newMode) {

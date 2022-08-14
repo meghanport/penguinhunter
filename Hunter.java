@@ -138,6 +138,21 @@ public class Hunter {
                 else{
                     Mode.storyMode();
                 }
+                System.out.println("Do you want to play again?");
+                System.out.println("Y or N?");
+                do {
+                
+                    playAgain = input.nextLine();
+                    switch(playAgain.toLowerCase()){
+                        case "y":
+                        case "n":
+                        userInputCorrect = true;
+                        break;
+                        default:
+                        System.out.println("Please pick either Y or N");
+                    }
+                    
+                } while (!userInputCorrect);
             }
     
             System.out.println("Thanks for playing!" );

@@ -27,7 +27,8 @@ public class Player {
     }
          
     public static String newPlayer(){
-        fish =10;
+        fish = 10; 
+        loan = 0;   
         
         Player.name = playerName();
         String newName = null;
