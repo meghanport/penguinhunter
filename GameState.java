@@ -4,11 +4,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class GameState {
     public static int round;
     private static int goneFishing;
     private static final Scanner input = new Scanner(System.in);
+    
     private static ArrayList<String> loanArray = new ArrayList<String>();
+ 
+    private static  final int MIN_FISH_TARGET = 10;
+    private static  final  int MAX_FISH_TARGET = 20;
+
+    private static  final  int MIN_INSURANCE = 1;
+    private static  final  int MAX_INSURANCE = 10;
+
+    private static  final  int MIN_DISASTER = 1;
+    private static  final  int MAX_DISASTER = 100;
+
+    private static  final int MIN_PENALTY = 50;
+    private static  final int MAX_PENALTY = 100;
 
    
     private static void initialiseArrayList(){
@@ -21,20 +35,16 @@ public class GameState {
 
     
     private static int fishTarget(){
-        int min = 10;
-        int max = 20;
-  
-        int fishTarget = (int)Math.floor(Math.random()*(max-min+1)+min);
+        
+        int fishTarget = (int)Math.floor(Math.random()*(MAX_FISH_TARGET-MIN_FISH_TARGET+1)+MIN_FISH_TARGET);
   
         System.out.println("Today's fish target is: " + fishTarget);  
         return fishTarget;
     }
 
     private static int insurance(){
-        int min = 1;
-        int max = 10;
   
-        int insurance = (int)Math.floor(Math.random()*(max-min+1)+min);
+        int insurance = (int)Math.floor(Math.random()*(MAX_INSURANCE-MIN_INSURANCE+1)+MIN_INSURANCE);
         
         System.out.println("Today's predator insurance premium is: " + insurance);  
         return insurance;
@@ -43,20 +53,16 @@ public class GameState {
 
     private static String naturalDisaster(){
         String safe = "You have avoided a natural disaster today!";
-        int min = 1;
-        int max = 100;
   
-        int probability = (int)Math.floor(Math.random()*(max-min+1)+min);
+        int probability = (int)Math.floor(Math.random()*(MAX_DISASTER-MIN_DISASTER+1)+ MIN_DISASTER);
         int thisisadisaster = 1;
                      
         if(probability == thisisadisaster){
-            int minPenalty = 50;
-            int maxPenalty = 100;
-            int penalty = (int)Math.floor(Math.random()*(maxPenalty-minPenalty+1)+minPenalty);
+            int penalty = (int)Math.floor(Math.random()*(MAX_PENALTY-MIN_PENALTY+1)+MIN_PENALTY);
 
             Player.fish = Player.fish - penalty;
 
-            youreDead(Player.fish);
+            checkDead(Player.fish);
                         
             if(Player.fish > 0){
                 System.out.println("Number of fish: " + Player.fish); 
@@ -81,69 +87,36 @@ public class GameState {
 
 
     private static int choiceList(){
-        System.out.println(" ");
-        System.out.println("Please make a selection:"); 
-        System.out.println("1: Catch fish"); 
-        System.out.println("2: Borrow from the loan shark"); 
-        System.out.println("3: End turn"); 
-
-        String selection = null;
-        boolean userInput = false;
-
-        do{
+        while (true) {
+            System.out.println(" ");
+            System.out.println("Please make a selection:");
+            System.out.println("1: Catch fish"); 
+            System.out.println("2: Borrow from the loan shark"); 
+            System.out.println("3: End turn"); 
+    
+            String selection = null;
+    
             selection = input.nextLine();
             switch(selection){
                 case "1":
                 case "2":
                 case "3":
-                userInput = true;
                 break;
                 default:
                 System.out.println("Please choose 1, 2, or 3");
+                continue;
             }
-
-        }while(!userInput);
-
-        Integer output = Integer.parseInt(selection);
-
-        String newSelection = String.valueOf(output);
-
-        
-        if(newSelection == "1" && goneFishing == 2){
-            System.out.println(" ");
-            System.out.println("Sorry, you're done fishing for today!"); 
-            System.out.println(" ");
-            System.out.println("Please make another selection:"); 
-            System.out.println("1: Borrow from the loan shark"); 
-            System.out.println("2: End this turn"); 
-
-            String selection1 = null;
-            boolean userInputCorrect = false;
-
-            do {
-                selection1 = input.nextLine();
-                switch(selection1){
-                    case "1":
-                    selection1 = "2";
-                    userInputCorrect = true;
-                    break;
-                    case "2":
-                    selection1 = "3";
-                    userInputCorrect = true;
-                    break;
-
-                    default:
-                    System.out.println("Please choose 1 or 2!");
-                    
-                   }
-                
-            } while (!userInputCorrect);
-
-            Integer output2 = Integer.parseInt(selection1);
-            output = output2;
+    
+            if (selection.equals("1") && goneFishing == 2){
+                System.out.println(" ");
+                System.out.println("Sorry, you're done fishing for today!"); 
+                System.out.println(" ");
+                System.out.println("Please make another selection");
+                continue;
+            }
+    
+            return Integer.parseInt(selection);
         }
-
-        return output;
     }
 
    
@@ -156,7 +129,7 @@ public class GameState {
 
     }
 
-    public static void nextRound() throws IOException{
+    public static void handleRound() throws IOException{
         ArrayList<String> newDay = new ArrayList<String>();
 
         try (BufferedReader br = new BufferedReader(new FileReader("newday.txt"))){
@@ -184,35 +157,28 @@ public class GameState {
         int prem = insurance();
         naturalDisaster();
 
-        boolean endTurn = false;
-
-        do{ 
+        while(true){
             Integer selection = choiceList();
-
             if((selection.equals(1))){
-    
                 catchFish();
-                goneFishing = goneFishing +1;
-                endTurn = false;
+                goneFishing = goneFishing +1;   
             }
             else if((selection.equals(2))){
                 loanShark();
-                endTurn = false;
-    
-            } else{
-            
+            }
+            else if((selection.equals(3))){
+                break;
+            }
+
+        }
             Player.fish = Player.fish - (todayTarget + prem);
-            
             endTurn(Player.fish, todayTarget, prem);
             
             if(Player.fish>0){
                 payDebt(thisRound);
             }
 
-            endTurn = true;
-            }
-      
-        } while(!endTurn);                  
+                        
     }
     
 
@@ -403,13 +369,18 @@ public class GameState {
             System.out.println("You now have " + Player.fish + " fish!");
             System.out.println(" ");
             System.out.println("Maurice: You have three days to pay back your debt...");
+
+
                     
             fishLoan = (int)Math.round(fishLoan*1.5);
+            
             String loanDue = "due" + String.valueOf(round + 3); 
             String loanAmount = String.valueOf(fishLoan); 
 
             loanArray.add(loanDue);
             loanArray.add(loanAmount);
+
+            
            
         }   
         
@@ -428,7 +399,7 @@ public class GameState {
                 System.out.println("Your loan is now " + Player.loan + " fish");
                 System.out.println("");
 
-                youreDead(Player.fish);
+                checkDead(Player.fish);
 
             }else{
                 System.out.println("");
@@ -437,7 +408,8 @@ public class GameState {
             }     
         }
 
-        public static void youreDead(int fish){
+        
+        public static void checkDead(int fish){
 
             if(fish<0){
 

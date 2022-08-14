@@ -74,7 +74,7 @@ public class Mode {
     
     public static void arcadeMode() throws IOException{
         System.out.println("");
-        String selection = null;
+        String selection; 
         System.out.println("This is Arcade Mode");
         System.out.println("The game goes on until you are not able to get");
         System.out.println("enough fish required for the end of the day.");
@@ -94,7 +94,7 @@ public class Mode {
         selection = input.nextLine();
 
         while(Player.fish > 0){
-            GameState.nextRound();
+            GameState.handleRound();
         }
 
         int roundsReached = GameState.round;
@@ -109,36 +109,51 @@ public class Mode {
 
         System.out.println("You have run out of fish ...");
 
-        GameState.youreDead(Player.fish);
+        GameState.checkDead(Player.fish);
 
     }
 
 
     public static void storyMode() throws IOException{
 
-        int selectRounds = 0;
+        int selectRounds;
         System.out.println("");
         System.out.println("This is Story Mode");
-        System.out.println("How many rounds would you like to play?");
-
-        selectRounds = Integer.parseInt(input.nextLine());
         
-        while(selectRounds<5){
+        while (true) {
+            System.out.println("How many rounds would you like to play?");
+            String selectRoundsRaw = input.nextLine();
+            try {
+                selectRounds = Integer.parseInt(selectRoundsRaw);
+            } catch (Exception e) {
+                System.out.println("Please enter a number\n");
+                continue;
+            }
+            if (selectRounds >= 5) {
+                break;
+            }
             System.out.println("You must play 5 or more rounds!");
-            selectRounds = Integer.parseInt(input.nextLine());
         }
 
-        System.out.println("How many fish do you hope to have after your " + selectRounds + " turns?");
-
-        int fishGoal = Integer.parseInt(input.nextLine());
-
-        while(fishGoal<=24){
-            System.out.println("Aim bigger! Aim for at least 25 fish");
-            fishGoal = Integer.parseInt(input.nextLine());
+       int fishGoal;
+        while (true) {
+            System.out.println("How many fish do you hope to have after your " + selectRounds + " turns?");
+            String fishGoalRaw  = input.nextLine();
+            try {
+                fishGoal = Integer.parseInt(fishGoalRaw);
+            } catch (Exception e) {
+                System.out.println("Please enter a number\n");
+                continue;
+            }
+            if (fishGoal >= 25) {
+                break;
+            }
+            System.out.println("Aim bigger! Aim for at least 25 fish!");
         }
 
+        
         while(GameState.round <= selectRounds){
-            GameState.nextRound();
+            GameState.handleRound();
         }
 
         System.out.println("You finished your " + selectRounds + " turns are over!");
