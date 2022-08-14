@@ -80,7 +80,7 @@ public class GameState {
     }
 
 
-    private static int choiceList(int goneFishing){
+    private static int choiceList(){
         System.out.println(" ");
         System.out.println("Please make a selection:"); 
         System.out.println("1: Catch fish"); 
@@ -103,9 +103,13 @@ public class GameState {
             }
 
         }while(!userInput);
-    
 
-        if(selection == "1" && goneFishing>=2){
+        Integer output = Integer.parseInt(selection);
+
+        String newSelection = String.valueOf(output);
+
+        
+        if(newSelection == "1" && goneFishing == 2){
             System.out.println(" ");
             System.out.println("Sorry, you're done fishing for today!"); 
             System.out.println(" ");
@@ -135,10 +139,10 @@ public class GameState {
                 
             } while (!userInputCorrect);
 
-            selection = selection1;
+            Integer output2 = Integer.parseInt(selection1);
+            output = output2;
         }
 
-        Integer output = Integer.parseInt(selection);
         return output;
     }
 
@@ -183,7 +187,7 @@ public class GameState {
         boolean endTurn = false;
 
         do{ 
-            Integer selection = choiceList(goneFishing);
+            Integer selection = choiceList();
 
             if((selection.equals(1))){
     
